@@ -264,3 +264,44 @@ Para problemas o preguntas relacionadas con el despliegue:
 2. **Verificar variables de entorno** están configuradas correctamente
 3. **Confirmar credenciales** de Azure Cosmos DB
 4. **Probar health check** antes de endpoints autenticados
+
+## Render (Deploy rápido)
+
+### Configuración mínima
+
+**Build Command**: `npm ci || npm install`  
+**Start Command**: `npm start`
+
+### Variables de entorno requeridas
+
+```env
+PORT=10000
+CORS_ALLOW_ORIGINS=https://carnetdigital.space,https://www.carnetdigital.space,http://localhost:5173,http://127.0.0.1:3000
+COSMOS_ENDPOINT=https://<TU_CUENTA>.documents.azure.com:443/
+COSMOS_KEY=<TU_KEY>
+COSMOS_DB=SASU
+COSMOS_CONTAINER_CARNETS=carnets_id
+COSMOS_CONTAINER_CITAS=cita_id
+JWT_SECRET=<hex_64>
+JWT_EXPIRES_MIN=120
+```
+
+### Smoke test
+
+```bash
+# Health check
+curl -s https://<tu-servicio>.onrender.com/_health
+
+# Login (usar credenciales reales de tu DB)
+curl -s -X POST https://<tu-servicio>.onrender.com/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"correo@uagro.mx","matricula":"2025"}'
+
+# Guardar TOKEN del login, luego:
+
+# Carnet
+curl -s -H "Authorization: Bearer $TOKEN" https://<tu-servicio>.onrender.com/me/carnet
+
+# Citas  
+curl -s -H "Authorization: Bearer $TOKEN" https://<tu-servicio>.onrender.com/me/citas
+```

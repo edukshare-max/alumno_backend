@@ -3,7 +3,7 @@ services:
     name: alumno-backend-node
     env: node
     plan: free
-    buildCommand: npm ci
+    buildCommand: npm ci || npm install
     startCommand: npm start
     envVars:
       - key: PORT
