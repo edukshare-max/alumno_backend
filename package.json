@@ -1,0 +1,24 @@
+{
+  "name": "alumno-backend-node",
+  "version": "1.0.0",
+  "description": "Micro-backend Node.js para acceso de estudiantes a carnet y citas (solo lectura)",
+  "type": "module",
+  "engines": {
+    "node": ">=18 <23"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "health": "curl -s http://localhost:%PORT%/_health || exit 1"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "@azure/cosmos": "^4.0.0"
+  },
+  "keywords": ["uagro", "carnet", "estudiantes", "cosmos-db", "jwt"],
+  "author": "UAGro",
+  "license": "MIT"
+}

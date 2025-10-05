@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: alumno-backend-node
+    env: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: CORS_ALLOW_ORIGINS
+        value: https://carnetdigital.space,https://www.carnetdigital.space,http://localhost:5173,http://127.0.0.1:3000
+      - key: COSMOS_ENDPOINT
+        sync: false
+      - key: COSMOS_KEY
+        sync: false
+      - key: COSMOS_DB
+        value: SASU
+      - key: COSMOS_CONTAINER_CARNETS
+        value: carnets_id
+      - key: COSMOS_CONTAINER_CITAS
+        value: cita_id
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_MIN
+        value: 120
