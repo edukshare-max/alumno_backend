@@ -149,4 +149,49 @@ $TOKEN = $login.access_token
 # Rutas protegidas
 Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhost:10000/me/carnet
 Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhost:10000/me/citas
+
+// ==============================================================================
+// PROMOCIONES DE SALUD - Endpoints
+// ==============================================================================
+const { createPromocionSalud, getPromocionesActivasForStudent } = require('./cosmos');
+
+app.post('/promociones/health', async (req, res) => {
+  try {
+    const { departamento, enlace, descripcion, grupoObjetivo, matriculaEspecifica, prioridad, masterKey } = req.body;
+    
+    if (masterKey !== 'Promocionsalud2025') {
+      return res.status(401).json({ error: 'Master key invalida' });
+    }
+    
+    if (!departamento || !enlace || !descripcion || !grupoObjetivo || !prioridad) {
+      return res.status(400).json({ error: 'Faltan campos requeridos' });
+    }
+    
+    const promocionData = {
+      departamento,
+      enlace,
+      descripcion,
+      grupoObjetivo,
+      matriculaEspecifica: matriculaEspecifica || null,
+      prioridad
+    };
+    
+    const promocion = await createPromocionSalud(promocionData);
+    res.json({ success: true, id: promocion.id, message: 'Promocion creada exitosamente' });
+  } catch (error) {
+    console.error('Error creating promocion:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+app.get('/me/promociones', authenticateToken, async (req, res) => {
+  try {
+    const matricula = req.user.matricula;
+    const promociones = await getPromocionesActivasForStudent(matricula);
+    res.json(promociones);
+  } catch (error) {
+    console.error('Error getting promociones:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
 */
