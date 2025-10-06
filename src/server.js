@@ -126,15 +126,20 @@ app.get("/me/citas", authMiddleware, async (req, res) => {
   }
 });
 
-// Error handler for unmatched routes
-app.use("*", (req, res) => {
-  res.status(404).json({ error: "Endpoint not found" });
-});
+// ** REMOVED CATCH-ALL MIDDLEWARE FROM HERE **
+// (Moved to end of file to allow all routes to be defined first)
 
 // Global error handler
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err.message);
   res.status(500).json({ error: "Internal server error" });
+});
+
+// =========================================================================
+// CATCH-ALL MIDDLEWARE (MUST BE LAST - after all route definitions)
+// =========================================================================
+app.use("*", (req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
 });
 
 const PORT = process.env.PORT || 10000;
