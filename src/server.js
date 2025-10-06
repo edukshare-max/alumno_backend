@@ -1,12 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { signToken, authMiddleware } from "./auth.js";// ==============================================================================
-// CATCH-ALL MIDDLEWARE TEMPORARILY DISABLED TO ALLOW PROMOCIONES ROUTES
-// ==============================================================================
-// app.use("*", (req, res) => {
-//   res.status(404).json({ error: "Endpoint not found" });
-// });t { getCarnetByMatricula, getCitasByMatricula, createPromocionSalud, getPromocionesActivasForStudent } from "./cosmos.js";
+import { signToken, authMiddleware } from "./auth.js";
+import { getCarnetByMatricula, getCitasByMatricula, createPromocionSalud, getPromocionesActivasForStudent } from "./cosmos.js";
 
 dotenv.config();
 
@@ -130,7 +126,8 @@ app.get("/me/citas", authMiddleware, async (req, res) => {
   }
 });
 
-// ** CATCH-ALL TEMPORARILY REMOVED - MOVED TO END OF FILE **
+// ** REMOVED CATCH-ALL MIDDLEWARE FROM HERE **
+// (Moved to end of file to allow all routes to be defined first)
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -138,18 +135,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal server error" });
 });
 
+// =========================================================================
+// CATCH-ALL MIDDLEWARE (MUST BE LAST - after all route definitions)
+// =========================================================================
+app.use("*", (req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
+});
+
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`🚀 alumno-backend-node listening on port ${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/_health`);
   console.log(`🔒 CORS origins: ${allowedOrigins.join(", ") || "None configured"}`);
-});
-
-// ==============================================================================
-// CATCH-ALL MIDDLEWARE - MUST BE LAST (after all route definitions)
-// ==============================================================================
-app.use("*", (req, res) => {
-  res.status(404).json({ error: "Endpoint not found" });
 });
 
 /*
@@ -177,7 +174,7 @@ Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhos
 
 
 
-app.post('/promociones/health', async (req, res) => {
+app.post('/api/promociones', async (req, res) => {
 
   try {
 
