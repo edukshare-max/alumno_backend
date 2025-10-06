@@ -126,8 +126,7 @@ app.get("/me/citas", authMiddleware, async (req, res) => {
   }
 });
 
-// ** REMOVED CATCH-ALL MIDDLEWARE FROM HERE **
-// (Moved to end of file to allow all routes to be defined first)
+// ** CATCH-ALL TEMPORARILY REMOVED - MOVED TO END OF FILE **
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -135,18 +134,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal server error" });
 });
 
-// =========================================================================
-// CATCH-ALL MIDDLEWARE (MUST BE LAST - after all route definitions)
-// =========================================================================
-app.use("*", (req, res) => {
-  res.status(404).json({ error: "Endpoint not found" });
-});
-
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`🚀 alumno-backend-node listening on port ${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/_health`);
   console.log(`🔒 CORS origins: ${allowedOrigins.join(", ") || "None configured"}`);
+});
+
+// ==============================================================================
+// CATCH-ALL MIDDLEWARE - MUST BE LAST (after all route definitions)
+// ==============================================================================
+app.use("*", (req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
 });
 
 /*
