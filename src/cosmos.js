@@ -9,12 +9,7 @@ const containerCarnets = process.env.COSMOS_CONTAINER_CARNETS;
 const containerCitas = process.env.COSMOS_CONTAINER_CITAS;
 
 if (!endpoint || !key || !databaseId || !containerCarnets || !containerCitas) {
-  console.error("Missing required Cosmos DB environment variables:");
-  console.error("COSMOS_ENDPOINT:", endpoint ? "✅" : "❌");
-  console.error("COSMOS_KEY:", key ? "✅" : "❌"); 
-  console.error("COSMOS_DB:", databaseId ? "✅" : "❌");
-  console.error("COSMOS_CONTAINER_CARNETS:", containerCarnets ? "✅" : "❌");
-  console.error("COSMOS_CONTAINER_CITAS:", containerCitas ? "✅" : "❌");
+  console.error("Missing required Cosmos DB environment variables");
   process.exit(1);
 }
 

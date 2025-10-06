@@ -17,6 +17,8 @@ app.use(cors({
     console.warn(`CORS blocked origin: ${origin}`);
     cb(new Error("Not allowed by CORS"));
   },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   credentials: true
 }));
 
