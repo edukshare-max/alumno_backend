@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { signToken, authMiddleware } from "./auth.js";
-import { getCarnetByMatricula, getCitasByMatricula, createPromocionSalud, getPromocionesActivasForStudent } from "./cosmos.js";
+import { getCarnetByMatricula, getCitasByMatricula, createPromocionSalud, getPromocionesActivasForStudent } from "./cosmos_safe.js";
 
 dotenv.config();
 
