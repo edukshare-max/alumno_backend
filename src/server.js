@@ -41,6 +41,24 @@ app.get("/_health", (req, res) => {
   res.json({ ok: true, service: "alumno-backend-node", timestamp: new Date().toISOString() });
 });
 
+// Diagnostic endpoint - TEMPORARY
+app.get("/_diagnostic", (req, res) => {
+  res.json({
+    service: "alumno-backend-node",
+    timestamp: new Date().toISOString(),
+    environment: {
+      COSMOS_ENDPOINT: process.env.COSMOS_ENDPOINT ? "SET" : "MISSING",
+      COSMOS_KEY: process.env.COSMOS_KEY ? "SET" : "MISSING", 
+      COSMOS_DB: process.env.COSMOS_DB ? "SET" : "MISSING",
+      COSMOS_CONTAINER_CARNETS: process.env.COSMOS_CONTAINER_CARNETS ? "SET" : "MISSING",
+      COSMOS_CONTAINER_CITAS: process.env.COSMOS_CONTAINER_CITAS ? "SET" : "MISSING",
+      PORT: process.env.PORT || "10000",
+      NODE_ENV: process.env.NODE_ENV || "production"
+    },
+    routes_status: "Routes should be available if this endpoint works"
+  });
+});
+
 // Simple test endpoint (no dependencies)
 app.get("/test/simple", (req, res) => {
   res.json({ 

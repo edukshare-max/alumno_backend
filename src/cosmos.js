@@ -10,8 +10,15 @@ const containerCarnets = process.env.COSMOS_CONTAINER_CARNETS;
 const containerCitas = process.env.COSMOS_CONTAINER_CITAS;
 
 if (!endpoint || !key || !databaseId || !containerCarnets || !containerCitas) {
-  console.error("Missing required Cosmos DB environment variables");
-  process.exit(1);
+  console.error("🚨 COSMOS DB DIAGNOSTIC:");
+  console.error("- COSMOS_ENDPOINT:", endpoint ? "✅ SET" : "❌ MISSING");
+  console.error("- COSMOS_KEY:", key ? "✅ SET" : "❌ MISSING");
+  console.error("- COSMOS_DB:", databaseId ? "✅ SET" : "❌ MISSING");
+  console.error("- COSMOS_CONTAINER_CARNETS:", containerCarnets ? "✅ SET" : "❌ MISSING");
+  console.error("- COSMOS_CONTAINER_CITAS:", containerCitas ? "✅ SET" : "❌ MISSING");
+  console.error("🔄 Server will continue with limited functionality for diagnosis");
+  // Temporarily comment out process.exit for diagnosis
+  // process.exit(1);
 }
 
 const client = new CosmosClient({ endpoint, key });
