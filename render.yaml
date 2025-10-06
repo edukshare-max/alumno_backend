@@ -9,7 +9,7 @@ services:
       - key: PORT
         value: 10000
       - key: CORS_ALLOW_ORIGINS
-        value: https://carnetdigital.space,https://www.carnetdigital.space,http://localhost:5173,http://127.0.0.1:3000
+        value: https://app.carnetdigital.space,https://carnetdigital.space,https://www.carnetdigital.space,https://edukshare-max.github.io,http://localhost:5173,http://127.0.0.1:3000
       - key: COSMOS_ENDPOINT
         sync: false
       - key: COSMOS_KEY
