@@ -160,7 +160,7 @@ Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhos
 
 
 
-app.post('/promociones/health', async (req, res) => {
+app.post('/promociones/health', authMiddleware, async (req, res) => {
 
   try {
 
