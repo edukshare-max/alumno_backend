@@ -41,15 +41,6 @@ app.get("/_health", (req, res) => {
   res.json({ ok: true, service: "alumno-backend-node", timestamp: new Date().toISOString() });
 });
 
-// Simple test endpoint (no dependencies)
-app.get("/test/simple", (req, res) => {
-  res.json({ 
-    message: "Endpoint simple funcionando", 
-    timestamp: new Date().toISOString(),
-    version: "2025-10-06-systematic"
-  });
-});
-
 // Authentication Endpoint
 app.post("/auth/login", async (req, res) => {
   let { email, matricula } = req.body || {};
