@@ -218,7 +218,7 @@ app.post('/promociones/health', async (req, res) => {
 
 
 
-app.get('/me/promociones', authenticateToken, async (req, res) => {
+app.get('/me/promociones', authMiddleware, async (req, res) => {
 
   try {
 
