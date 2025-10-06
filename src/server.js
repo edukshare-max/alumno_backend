@@ -9,12 +9,26 @@ dotenv.config();
 const app = express();
 app.use(express.json({ limit: "10mb" }));
 
-// CORS Configuration
-const allowedOrigins = (process.env.CORS_ALLOW_ORIGINS || "").split(",").map(o => o.trim()).filter(Boolean);
+// CORS Configuration - Hardcoded to bypass env var issues
+const allowedOrigins = [
+  'https://app.carnetdigital.space',
+  'https://carnetdigital.space',
+  'https://www.carnetdigital.space',
+  'https://edukshare-max.github.io',
+  'http://localhost:5173',
+  'http://127.0.0.1:3000'
+];
+
+console.log('🌐 CORS configured for origins:', allowedOrigins);
+
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-    console.warn(`CORS blocked origin: ${origin}`);
+    console.log(`🔍 CORS check for origin: ${origin}`);
+    if (!origin || allowedOrigins.includes(origin)) {
+      console.log(`✅ CORS allowed for origin: ${origin}`);
+      return cb(null, true);
+    }
+    console.warn(`❌ CORS blocked origin: ${origin}`);
     cb(new Error("Not allowed by CORS"));
   },
   methods: ['GET', 'POST', 'OPTIONS'],
