@@ -38,6 +38,12 @@ app.use(cors({
 
 // Health Check
 app.get("/_health", (req, res) => {
+
+// Endpoint de diagnóstico sin dependencias
+app.get("/test/simple", (req, res) => {
+  res.json({ message: "Endpoint simple funcionando", timestamp: new Date().toISOString() });
+});
+
   res.json({ ok: true, service: "alumno-backend-node", timestamp: new Date().toISOString() });
 });
 
