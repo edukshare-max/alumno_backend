@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { signToken, authMiddleware } from "./auth.js";
-import { getCarnetByMatricula, getCitasByMatricula, createPromocionSalud, getPromocionesActivasForStudent } from "./cosmos_safe.js";
+import { getCarnetByMatricula, getCitasByMatricula, createPromocionSalud, getPromocionesActivasForStudent } from "./cosmos.js";
 
 dotenv.config();
 
@@ -38,12 +38,6 @@ app.use(cors({
 
 // Health Check
 app.get("/_health", (req, res) => {
-
-// Endpoint de diagnóstico sin dependencias
-app.get("/test/simple", (req, res) => {
-  res.json({ message: "Endpoint simple funcionando", timestamp: new Date().toISOString() });
-});
-
   res.json({ ok: true, service: "alumno-backend-node", timestamp: new Date().toISOString() });
 });
 
@@ -166,7 +160,7 @@ Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhos
 
 
 
-app.post('/promociones/health', authMiddleware, async (req, res) => {
+app.post('/promociones/health', async (req, res) => {
 
   try {
 
