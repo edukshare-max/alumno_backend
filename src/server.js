@@ -144,29 +144,6 @@ app.get("/me/citas", authMiddleware, async (req, res) => {
   }
 });
 
-// ** REMOVED CATCH-ALL MIDDLEWARE FROM HERE **
-// (Moved to end of file to allow all routes to be defined first)
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error("Unhandled error:", err.message);
-  res.status(500).json({ error: "Internal server error" });
-});
-
-// =========================================================================
-// CATCH-ALL MIDDLEWARE (MUST BE LAST - after all route definitions)
-// =========================================================================
-app.use("*", (req, res) => {
-  res.status(404).json({ error: "Endpoint not found" });
-});
-
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`🚀 alumno-backend-node listening on port ${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/_health`);
-  console.log(`🔒 CORS origins: ${allowedOrigins.join(", ") || "None configured"}`);
-});
-
 // ==============================================================================
 // PROMOCIONES DE SALUD - Endpoints
 // ==============================================================================
@@ -211,18 +188,22 @@ app.get('/me/promociones', authMiddleware, async (req, res) => {
   }
 });
 
-/*
-SMOKE TEST (PowerShell):
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err.message);
+  res.status(500).json({ error: "Internal server error" });
+});
 
-# Salud
-Invoke-RestMethod http://localhost:10000/_health
+// =========================================================================
+// CATCH-ALL MIDDLEWARE (MUST BE LAST - after all route definitions)
+// =========================================================================
+app.use("*", (req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
+});
 
-# Login (usar matrícula/email que existan en SASU/carnets_id)
-$body = @{ email="correo@uagro.mx"; matricula="2025" } | ConvertTo-Json
-$login = Invoke-RestMethod -Method Post -Uri http://localhost:10000/auth/login -ContentType application/json -Body $body
-$TOKEN = $login.access_token
-
-# Rutas protegidas
-Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhost:10000/me/carnet
-Invoke-RestMethod -Headers @{Authorization="Bearer $TOKEN"} -Uri http://localhost:10000/me/citas
-*/
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`🚀 alumno-backend-node listening on port ${PORT}`);
+  console.log(`📊 Health check: http://localhost:${PORT}/_health`);
+  console.log(`🔒 CORS origins: ${allowedOrigins.join(", ") || "None configured"}`);
+});
